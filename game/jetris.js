@@ -77,7 +77,7 @@ function gameLoop(timeStamp){
 
     updateGameLogic(secondsPassed, timeStamp);
     draw();
-    collisionDetection();
+    //collisionDetection();
     drawFPS(secondsPassed);
 
     // Keep requesting new frames
