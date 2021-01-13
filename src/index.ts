@@ -1,4 +1,4 @@
-/*
+ /*
  * LoLtris
  * 
  * This lovely gameloop engine was copied from:
@@ -8,9 +8,17 @@
  * 
  */
 
-"use strict";
-let canvas;
-let context;
+/*
+* TODO:
+    rotaatio funktio
+    törmäystunnistus
+    siivoaminen
+    draw uusiks (scalelle)
+    Marko kiusaa mua päivittäin
+*/
+
+let canvas: HTMLCanvasElement;
+let context: CanvasRenderingContext2D;
 
 // globals 😬
 let fps = 0;
@@ -22,7 +30,7 @@ let scrollSpeed = 0;
 let movingSpeed = 50;
 let rectX = 80;
 let rectY = 0;
-let currentKey = 36;
+let currentKey: string;
 
 // temp
 let spawnNewBlock = true;
@@ -55,14 +63,14 @@ console.table(GAMEFIELD);
 window.onload = init;
 
 function init(){
-    canvas = document.getElementById('gamefield');
-    context = canvas.getContext('2d');
+    canvas = document.getElementById('gamefield') as HTMLCanvasElement;
+    context = canvas.getContext('2d') as CanvasRenderingContext2D;
     context.scale(1,1);
 
     window.requestAnimationFrame(gameLoop);
 }
 
-function gameLoop(timeStamp){
+function gameLoop(timeStamp: number){
     // Calculate the number of seconds passed since the last frame
     secondsPassed = (timeStamp - oldTimeStamp) / 1000;
     //secondsPassed = Math.min(secondsPassed, 0.1);
@@ -84,7 +92,7 @@ function gameLoop(timeStamp){
     window.requestAnimationFrame(gameLoop);
 }
 
-function updateGameLogic(secondsPassed, ts) {
+function updateGameLogic(secondsPassed: number, ts: number) {
     timePassed += secondsPassed;
 
     // catch the key presses here
@@ -155,12 +163,12 @@ function draw() {
     context.fillRect(rectX, rectY, BLOCKSCALE, BLOCKSCALE);
 }
 
-function drawFPS(t) {
+function drawFPS(t: number) {
     fps = Math.round(1 / t);
 
     context.font = '16px Arial';
     context.fillStyle = 'black';
-    context.fillText("FPS: " + fps, 10, 30);
+    context.fillText("Marko: " + fps, 10, 30);
     context.fillText(currentKey, 10, 50);
 }
 
@@ -170,7 +178,7 @@ function randomBlock() {
 
 class Tetromino {
 
-    constructor (block) {
+    constructor (block: number) {
         switch (block) {
             case 1:
                 this.OrangeRicky();

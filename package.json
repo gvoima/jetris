@@ -1,0 +1,25 @@
+{
+  "name": "jetris",
+  "version": "1.0.0",
+  "description": "Tetris for the lulz in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gvoima/jetris.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gvoima/jetris/issues"
+  },
+  "homepage": "https://github.com/gvoima/jetris#readme",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}
