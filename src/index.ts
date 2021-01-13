@@ -14,7 +14,6 @@
     törmäystunnistus
     siivoaminen
     draw uusiks (scalelle)
-    Marko kiusaa mua päivittäin
 */
 
 let canvas: HTMLCanvasElement;
@@ -36,7 +35,7 @@ let currentKey: string;
 let spawnNewBlock = true;
 
 // blocks
-let currentBlock = null;
+let currentBlock: Tetromino;
 let BLOCKSPECIAL = 4;
 let BLOCKFILLED = 1;
 let BLOCKEMPTY = 0;
@@ -113,6 +112,7 @@ function updateGameLogic(secondsPassed: number, ts: number) {
             case "Up":
             case "ArrowUp":
                 currentKey = pressedKey;
+                rotateTetromino(currentBlock);
             break;
             
             case "Left":
@@ -158,7 +158,10 @@ function draw() {
     // Clear the canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
     // Fill with red
-    context.fillStyle = '#ff8080';
+    context.fillStyle = currentBlock.color;
+
+    
+
     // Draw a rectangle on the canvas
     context.fillRect(rectX, rectY, BLOCKSCALE, BLOCKSCALE);
 }
@@ -168,12 +171,19 @@ function drawFPS(t: number) {
 
     context.font = '16px Arial';
     context.fillStyle = 'black';
-    context.fillText("Marko: " + fps, 10, 30);
+    context.fillText("FPS: " + fps, 10, 30);
     context.fillText(currentKey, 10, 50);
 }
 
 function randomBlock() {
     return Math.floor(Math.random() * 7) + 1;
+}
+
+function rotateTetromino(tetromino: Tetromino) {
+    const { piece } = tetromino
+    currentBlock.piece = piece[0].map((_val, index) => piece.map(row => row[index]).reverse());
+
+    console.table(currentBlock.piece);
 }
 
 class Tetromino {
@@ -209,60 +219,51 @@ class Tetromino {
             break;
 
             default:
+                break;
             return;
         }
     }
     name = "";
     color = 'black';
-    // default to 3, the special pieces are Hero and Smashboy
-    size = 3;
     // current block position on field
     x = 0;
     y = 0;
     // default to 4x4 because we have a piece that's 4 blocks long.
     // otherwise we only rotate the pieces from indexes 0 to 2
-    piece = [[0, 0, 0, 0,],
-             [0, 0, 0, 0,],
-             [0, 0, 0, 0,],
-             [0, 0, 0, 0,]];
+    piece: number[][] = [];
 
     OrangeRicky() {
         this.name = "Orange Ricky";
         this.color = 'orange';
-        this.piece = [[0, 0, 1, 0,],
-                      [1, 1, 1, 0,],
-                      [0, 0, 0, 0,],
-                      [0, 0, 0, 0,]];
+        this.piece = [[0, 0, 1,],
+                      [1, 1, 1,],
+                      [0, 0, 0,]];
+                      
     }
     BlueRicky() {
         this.name = "Blue Ricky";
         this.color = 'blue';
-        this.piece = [[1, 0, 0, 0,],
-                      [1, 1, 1, 0,],
-                      [0, 0, 0, 0,],
-                      [0, 0, 0, 0,]];
+        this.piece = [[1, 0, 0,],
+                      [1, 1, 1,],
+                      [0, 0, 0,]];
     }
     ClevelandZ() {
         this.name = "Cleveland Z";
         this.color = 'red';
-        this.piece = [[1, 1, 0, 0,],
-                      [0, 1, 1, 0,],
-                      [0, 0, 0, 0,],
-                      [0, 0, 0, 0,]];
+        this.piece = [[1, 1, 0,],
+                      [0, 1, 1,],
+                      [0, 0, 0,]];
     }
     RhodeIslandZ() {
         this.name = "Rhode Island Z";
         this.color = 'lime';
-        this.piece = [[0, 1, 1, 0,],
-                      [1, 1, 0, 0,],
-                      [0, 0, 0, 0,],
-                      [0, 0, 0, 0,]];
+        this.piece = [[0, 1, 1,],
+                      [1, 1, 0,],
+                      [0, 0, 0,]];
     }
     Hero() {
         this.name = "Hero";
         this.color = 'cyan';
-        // set size, this piece only fits in an 4x4 array
-        this.size = 4;
         this.piece = [[0, 0, 0, 0,],
                       [0, 0, 0, 0,],
                       [1, 1, 1, 1,],
@@ -271,16 +272,13 @@ class Tetromino {
     Teewee() {
         this.name = "Teewee";
         this.color = 'blueviolet';
-        this.piece = [[0, 1, 0, 0,],
-                      [1, 1, 1, 0,],
-                      [0, 0, 0, 0,],
-                      [0, 0, 0, 0,]];
+        this.piece = [[0, 1, 0,],
+                      [1, 1, 1,],
+                      [0, 0, 0,]];
     }
     Smashboy() {
         this.name = "Smash boy";
         this.color = 'yellow';
-        // easier to rotate in an 4x4 array
-        this.size = 4;
         this.piece = [[0, 0, 0, 0,],
                       [0, 1, 1, 0,],
                       [0, 1, 1, 0,],
