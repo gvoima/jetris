@@ -162,12 +162,17 @@ function draw() {
 
     // Get block info before painting
     context.fillStyle = currentBlock.color;
+    // it's always n x n, so we can just take the first row/column and use it as size
+    let blockSize = currentBlock.piece.length;
 
-    for (let x = 0; x < ROWS; x++) {
-        for (let y = 0; y < COLUMNS; y++) {
-            console.log(currentBlock.piece[x][y]);
-            console.log("rivi: " + x);
-            context.fillRect(rectX, rectY, BLOCKSCALE, BLOCKSCALE);
+    for (let x = 0; x < blockSize; x++) {
+        for (let y = 0; y < blockSize; y++) {
+            //console.log("Blokkikoko!: " + blockSize);
+            //console.log(currentBlock.piece[x][y]);
+            //console.log("rivi: " + x);
+            if (currentBlock.piece[x][y] == 1) {
+                context.fillRect((rectX * x+1), (rectY * y+1), BLOCKSCALE, BLOCKSCALE);
+            }
         }
     }
 }
