@@ -1,4 +1,4 @@
- /*
+/*
  * LoLtris
  * 
  * This lovely gameloop engine was copied from:
@@ -7,6 +7,8 @@
  * everything else is selfmade, more or less
  * 
  */
+
+/* Deployed on Netlify https://jetris.netlify.app (autobuild from commit) */
 
 /*
 * TODO:
@@ -157,13 +159,17 @@ function updateGameLogic(secondsPassed: number, ts: number) {
 function draw() {
     // Clear the canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
-    // Fill with red
+
+    // Get block info before painting
     context.fillStyle = currentBlock.color;
 
-    
-
-    // Draw a rectangle on the canvas
-    context.fillRect(rectX, rectY, BLOCKSCALE, BLOCKSCALE);
+    for (let x = 0; x < ROWS; x++) {
+        for (let y = 0; y < COLUMNS; y++) {
+            console.log(currentBlock.piece[x][y]);
+            console.log("rivi: " + x);
+            context.fillRect(rectX, rectY, BLOCKSCALE, BLOCKSCALE);
+        }
+    }
 }
 
 function drawFPS(t: number) {
